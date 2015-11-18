@@ -4,24 +4,25 @@ package Sorts;
  * Created by Le on 2015/11/18.
  */
 public class QuickSort {
-    private static void quickSort(int[] array, int l, int u) {
+    private static void quickSort(int[] array, int lo, int hi) {
 
-        if (l >= u) {
+        if (hi <= lo) {
             return;
         }
-        int m = l;
-        for (int i = l + 1; i <= u; i++) {
-            if (array[i] < array[l]) {
+        //partition
+        int m = lo;
+        for (int i = lo + 1; i <= hi; i++) {
+            if (array[i] < array[lo]) {
                 m += 1;
                 swap(array, m, i);
             }
         }
         // swap between array[m] and array[l]
         // put pivot in the mid
-        swap(array, m, l);
+        swap(array, m, lo);
 
-        quickSort(array, l, m - 1);
-        quickSort(array, m + 1, u);
+        quickSort(array, lo, m - 1);
+        quickSort(array, m + 1, hi);
     }
 
     public static void quickSort(int[] array) {
