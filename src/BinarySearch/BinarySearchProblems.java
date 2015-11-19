@@ -43,21 +43,19 @@ public class BinarySearchProblems {
     /***
      * Search for a Range
      * {https://leetcode.com/problems/search-for-a-range/}
+     * <p>
+     * Given a sorted array of integers, find the starting and ending position of a given target value
+     * Your algorithm's runtime complexity must be in the order of O(log n).
+     * If the target is not found in the array, return [-1, -1].
+     * For example,
+     * Given [5, 7, 7, 8, 8, 10] and target value 8,
+     * return [3, 4].
      *
-     *   Given a sorted array of integers, find the starting and ending position of a given target value
-         Your algorithm's runtime complexity must be in the order of O(log n).
-         If the target is not found in the array, return [-1, -1].
-         For example,
-         Given [5, 7, 7, 8, 8, 10] and target value 8,
-         return [3, 4].
-     *
-     *
-     * @param nums input array
-     * @param target integer that trying to search
-     * @return an Array has 2 elements shows the index of the first target and last target
-     *
+     * @param nums   a sorted array
+     * @param target a target value
+     * @return An array contains the starting and ending position of a given target value
+     * <p>
      * O(logN + logN) ~ O(logN)
-     *
      */
     public int[] searchRange(int[] nums, int target) {
         int lo = 0, hi = nums.length - 1;
@@ -104,5 +102,219 @@ public class BinarySearchProblems {
         return result;
     }
 
+    /**
+     * Search Insert Position
+     * {https://leetcode.com/problems/search-insert-position/}
+     * <p>
+     * Given a sorted array and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
+     * You may assume no duplicates in the array.
+     * Here are few examples.
+     * [1,3,5,6], 5 → 2
+     * [1,3,5,6], 2 → 1
+     * [1,3,5,6], 7 → 4
+     * [1,3,5,6], 0 → 0
+     *
+     * @param nums   a sorted array
+     * @param target a target value
+     * @return an Integer as the index where it would be if it were inserted in order
+     * <p>
+     * O(logN)
+     */
+    public int searchInsert(int[] nums, int target) {
+        int lo = 0, hi = nums.length - 1;
+        while (lo + 1 < hi) {
+            int mid = lo + (hi - lo) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            } else if (nums[mid] < target) {
+                lo = mid;
+            } else {
+                hi = mid;
+            }
+        }
 
+        if (nums[lo] >= target) {
+            return lo; //replace
+        } else if (nums[hi] >= target) {
+            return hi;
+        } else {
+            return hi + 1;
+        }
+    }
+
+    /**
+     * Search a 2D Matrix
+     * {https://leetcode.com/problems/search-a-2d-matrix/}
+     * <p>
+     * Write an efficient algorithm that searches for a value in an m x n matrix.
+     * For example,
+     * Consider the following matrix:
+     * [
+     * [1,   3,  5,  7],
+     * [10, 11, 16, 20],
+     * [23, 30, 34, 50]
+     * ]
+     * Given target = 3, return true.
+     *
+     * @param matrix an m x n matrix, Integers in each row are sorted from left to right. The first integer of each row is greater than the last integer of the previous row.
+     * @param target
+     * @return boolean is target in the matrix
+     * <p>
+     * O(logN)  image we flat the matrix into a sorted array
+     */
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix == null || matrix[0] == null || matrix.length == 0) {
+            return false;
+        }
+        int row = matrix.length;
+        int colum = matrix[0].length;
+        int lo = 0, hi = row * colum - 1;
+        while (lo + 1 < hi) {
+            int mid = lo + (hi - lo) / 2;
+            int midNum = matrix[mid / colum][mid % colum];
+            if (midNum == target) {
+                return true;
+            } else if (midNum > target) {
+                hi = mid;
+            } else {
+                lo = mid;
+            }
+        }
+        if (matrix[lo / colum][lo % colum] == target) {
+            return true;
+        } else if (matrix[hi / colum][hi % colum] == target) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Search a 2D Matrix II
+     * {https://leetcode.com/problems/search-a-2d-matrix-ii/}
+     * <p>
+     * Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
+     * <p>
+     * Integers in each row are sorted in ascending from left to right.
+     * Integers in each column are sorted in ascending from top to bottom.
+     * For example,
+     * <p>
+     * Consider the following matrix:
+     * <p>
+     * [
+     * [1,   4,  7, 11, 15],
+     * [2,   5,  8, 12, 19],
+     * [3,   6,  9, 16, 22],
+     * [10, 13, 14, 17, 24],
+     * [18, 21, 23, 26, 30]
+     * ]
+     * Given target = 5, return true.
+     * <p>
+     * Given target = 20, return false.
+     *
+     * @param matrix: A list of lists of integers
+     * @param: A number you want to search in the matrix
+     * @return: A boolean indicate if target is in the given matrix
+     * O(n + m), O(1) space
+     */
+    public boolean searchMatrixII(int[][] matrix, int target) {
+        if (matrix.length == 0 || matrix[0].length == 0) {
+            return false;
+        }
+        int row = 0, col = matrix[0].length - 1;
+        while (row >= 0 && col >= 0 && row < matrix.length && col < matrix[0].length) {
+            if (matrix[row][col] == target) {
+                return true;
+            } else if (matrix[row][col] < target) {
+                row++;
+            } else {
+                col--;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Find Peak Element
+     * {https://leetcode.com/problems/find-peak-element/}
+     * A peak element is an element that is greater than its neighbors.
+     * Given an input array where num[i] ≠ num[i+1], find a peak element and return its index.
+     * The array may contain multiple peaks, in that case return the index to any one of the peaks is fine.
+     * You may imagine that num[-1] = num[n] = -∞.
+     * For example, in array [1, 2, 3, 1], 3 is a peak element and your function should return the index number 2.
+     *
+     * @param nums
+     * @return index of peak element
+     * O(logN)
+     */
+    public int findPeakElement(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return -1;
+        }
+        int lo = 0, hi = nums.length - 1;
+        while (lo + 1 < hi) {
+            int mid = lo + (hi - lo) / 2;
+            if (nums[mid] < nums[mid + 1]) {
+                lo = mid;
+            } else if (nums[mid] < nums[mid - 1]) {
+                hi = mid;
+            } else {
+                return mid;
+            }
+        }
+        return nums[lo] > nums[hi] ? lo : hi;
+    }
+
+    /**
+     * Find Minimum in Rotated Sorted Array
+     * {https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/}
+     * Suppose a sorted array is rotated at some pivot unknown to you beforehand.
+     * (i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
+     * Find the minimum element.
+     * You may assume no duplicate exists in the array.
+     *
+     * @param nums
+     * @return minimum element
+     * O(logN)
+     */
+    public int findMin(int[] nums) {
+        int lo = 0, hi = nums.length - 1;
+        while (lo + 1 < hi) {
+            int mid = lo + (hi - lo) / 2;
+            //just compare to the end of the half side, if mid element is less then it, this indicates mid -> hi is a ascending array
+            if (nums[mid] < nums[hi]) {
+                hi = mid;
+            } else {
+                lo = mid;
+            }
+        }
+        return nums[lo] < nums[hi] ? nums[lo] : nums[hi];
+    }
+
+    /**
+     * Find Minimum in Rotated Sorted Array II
+     * {https://leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii/}
+     * Suppose a sorted array is rotated at some pivot unknown to you beforehand.
+     * (i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
+     * Find the minimum element.
+     * The array may contain duplicates.
+     *
+     * @param nums
+     * @return minimum element
+     * O(logN), worst case O(n)
+     */
+    public int findMinII(int[] nums) {
+        int lo = 0, hi = nums.length - 1;
+        while (lo + 1 < hi) {
+            int mid = lo + (hi - lo) / 2;
+            //just compare to the end of the half side, if mid element is less then it, this indicates mid -> hi is a ascending array
+            if (nums[mid] < nums[hi]) {
+                hi = mid;
+            } else if (nums[mid] > nums[hi]) {
+                lo = mid;
+            } else {
+                hi--; // nums[mid] == nums[hi], worst case most of elements are duplicate, we have to cut them all. O(n)
+            }
+        }
+        return nums[lo] < nums[hi] ? nums[lo] : nums[hi];
+    }
 }
