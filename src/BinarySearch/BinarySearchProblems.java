@@ -404,4 +404,43 @@ public class BinarySearchProblems {
         }
         return nums[hi] == target || nums[lo] == target;
     }
+
+    /**
+     * Median of Two Sorted Arrays
+     * {https://leetcode.com/problems/median-of-two-sorted-arrays/ }
+     * There are two sorted arrays nums1 and nums2 of size m and n respectively. Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).
+     */
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int len = nums1.length + nums2.length;
+        if (len % 2 == 0) {
+            return (findKth(nums1, 0, nums2, 0, len / 2) + findKth(nums1, 0, nums2, 0, len / 2 + 1)) / 2.0;
+        } else {
+            return findKth(nums1, 0, nums2, 0, len / 2 + 1);
+        }
+    }
+    private int findKth(int[] A, int indexA, int[] B, int indexB, int k) {
+        if (indexA > A.length - 1) {
+            return B[indexB + k - 1];
+        }
+        if (indexB > B.length - 1) {
+            return A[indexA + k - 1];
+        }
+        // avoid infilite loop if k == 1
+        if (k == 1) {
+            return Math.min(A[indexA], B[indexB]);
+        }
+        int keyA = Integer.MAX_VALUE, keyB = Integer.MAX_VALUE;
+
+        if (indexA + k/2 - 1 < A.length){
+            keyA = A[indexA + k/2 - 1];
+        }
+        if (indexB + k/2 - 1 < B.length) {
+            keyB = B[indexB + k/2 - 1];
+        }
+        if (keyA > keyB) {
+            return findKth(A, indexA, B, indexB + k/2, k - k/2);
+        } else {
+            return findKth(A, indexA + k/2, B, indexB, k - k/2);
+        }
+    }
 }
