@@ -212,8 +212,8 @@ public class BinarySearchProblems {
      * Given target = 20, return false.
      *
      * @param matrix: A list of lists of integers
-     * @param: A number you want to search in the matrix
-     * @return: A boolean indicate if target is in the given matrix
+     * @param target: A number you want to search in the matrix
+     * @return boolean: A boolean indicate if target is in the given matrix
      * O(n + m), O(1) space
      */
     public boolean searchMatrixII(int[][] matrix, int target) {
@@ -316,5 +316,92 @@ public class BinarySearchProblems {
             }
         }
         return nums[lo] < nums[hi] ? nums[lo] : nums[hi];
+    }
+
+    /**
+     * Search in Rotated Sorted Array
+     * {https://leetcode.com/problems/search-in-rotated-sorted-array/}
+     * Suppose a sorted array is rotated at some pivot unknown to you beforehand.
+     * (i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
+     * You are given a target value to search. If found in the array return its index, otherwise return -1.
+     * You may assume no duplicate exists in the array.
+     *
+     * @param nums
+     * @param target
+     * @return int
+     *
+     *  O(logn)
+     */
+
+    public int searchRotatedSortedArray(int[] nums, int target) {
+        int lo = 0, hi = nums.length - 1;
+        while (lo + 1 < hi) {
+            int mid = lo + (hi - lo) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            }
+
+            if (nums[mid] > nums[lo]) {
+                if (nums[lo] <= target && nums[mid] >= target) {
+                    hi = mid;
+                } else {
+                    lo = mid;
+                }
+            } else {
+                if (nums[mid] <= target && nums[hi] >= target) {
+                    lo = mid;
+                } else {
+                    hi = mid;
+                }
+            }
+        }
+        if (nums[hi] == target) {
+            return hi;
+        }
+        if (nums[lo] == target) {
+            return lo;
+        }
+        return -1;
+    }
+
+    /**
+     * Search in Rotated Sorted Array II
+     * {https://leetcode.com/problems/search-in-rotated-sorted-array-ii/}
+     * Suppose a sorted array is rotated at some pivot unknown to you beforehand.
+     * (i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
+     * You are given a target value to search. If found in the array return its index, otherwise return -1.
+     * duplicates are allowed
+     *
+     * @param nums
+     * @param target
+     * @return boolean
+     *
+     *  O(logN), worst case O(n)
+     */
+    public boolean searchRotatedSortedArrayII(int[] nums, int target) {
+        int lo = 0, hi = nums.length - 1;
+        while (lo + 1 < hi) {
+            int mid = lo + (hi - lo) / 2;
+            if (nums[mid] == target) {
+                return true;
+            }
+
+            if (nums[mid] > nums[lo]) {
+                if (nums[lo] <= target && nums[mid] >= target) {
+                    hi = mid;
+                } else {
+                    lo = mid;
+                }
+            } else if (nums[mid] < nums[lo]) {
+                if (nums[mid] <= target && nums[hi] >= target) {
+                    lo = mid;
+                } else {
+                    hi = mid;
+                }
+            } else {
+                lo++;
+            }
+        }
+        return nums[hi] == target || nums[lo] == target;
     }
 }
