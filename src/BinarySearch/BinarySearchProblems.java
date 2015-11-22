@@ -431,16 +431,16 @@ public class BinarySearchProblems {
         }
         int keyA = Integer.MAX_VALUE, keyB = Integer.MAX_VALUE;
 
-        if (indexA + k/2 - 1 < A.length){
-            keyA = A[indexA + k/2 - 1];
+        if (indexA + k / 2 - 1 < A.length){
+            keyA = A[indexA + k / 2 - 1];
         }
-        if (indexB + k/2 - 1 < B.length) {
-            keyB = B[indexB + k/2 - 1];
+        if (indexB + k / 2 - 1 < B.length) {
+            keyB = B[indexB + k / 2 - 1];
         }
         if (keyA > keyB) {
-            return findKth(A, indexA, B, indexB + k/2, k - k/2);
+            return findKth(A, indexA, B, indexB + k / 2, k - k / 2);
         } else {
-            return findKth(A, indexA + k/2, B, indexB, k - k/2);
+            return findKth(A, indexA + k / 2, B, indexB, k - k / 2);
         }
     }
 }
