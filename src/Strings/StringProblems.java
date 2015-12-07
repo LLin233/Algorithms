@@ -48,12 +48,12 @@ public class StringProblems {
      * {https://oj.leetcode.com/problems/implement-strstr}
      * Implement strstr(). Returns the index of the first occurrence of needle in haystack, or –1
      * if needle is not part of haystack.
-     *
+     * <p>
      * O(nm) runtime, O(1) space
      */
     public int strStr(String haystack, String needle) {
         for (int i = 0; ; i++) {
-            for (int j = 0; ;j++) {
+            for (int j = 0; ; j++) {
                 if (j == needle.length()) {
                     return i;
                 }
@@ -70,19 +70,18 @@ public class StringProblems {
     /**
      * 14. One Edit Distance
      * {https://oj.leetcode.com/problems/one-edit-distance/}
-         Question:
-         Given two strings S and T, determine if they are both one edit distance apart.
-         Hint:
-         1. If | n – m | is greater than 1, we know immediately both are not one-edit distance
-         apart.
-         2. It might help if you consider these cases separately, m == n and m ≠ n.
-         3. Assume that m is always ≤ n, which greatly simplifies the conditional statements.
-         If m > n, we could just simply swap S and T.
-         4. If m == n, it becomes finding if there is exactly one modified operation. If m ≠ n,
-         you do not have to consider the delete operation. Just consider the insert operation
-         in T.
-         O(n) runtime, O(1) space – Simple one-pass
-
+     * Question:
+     * Given two strings S and T, determine if they are both one edit distance apart.
+     * Hint:
+     * 1. If | n – m | is greater than 1, we know immediately both are not one-edit distance
+     * apart.
+     * 2. It might help if you consider these cases separately, m == n and m ≠ n.
+     * 3. Assume that m is always ≤ n, which greatly simplifies the conditional statements.
+     * If m > n, we could just simply swap S and T.
+     * 4. If m == n, it becomes finding if there is exactly one modified operation. If m ≠ n,
+     * you do not have to consider the delete operation. Just consider the insert operation
+     * in T.
+     * O(n) runtime, O(1) space – Simple one-pass
      */
     public boolean isOneEditDistance(String s, String t) {
         int m = s.length(), n = t.length();
@@ -93,7 +92,7 @@ public class StringProblems {
             return false;
         }
         int i = 0, shift = n - m;
-        while (i < m && s.charAt(i) == t.charAt(i)){
+        while (i < m && s.charAt(i) == t.charAt(i)) {
             i++;
         }
         if (i == m) {
@@ -107,4 +106,30 @@ public class StringProblems {
         }
         return i == m;
     }
+
+    /**
+     * Longest Substring Without Repeating Characters
+     *{https://oj.leetcode.com/problems/longest-substring-without-repeating-characters/}
+     * Given a string, find the length of the longest substring without repeating characters.
+     * For example, the longest substring without repeating letters for “abcabcbb” is “abc”, which the length is 3.
+     * For “bbbbb” the longest substring is “b”, with the length of 1.
+     *
+     * O(n) runtime, O(1) space – Two iterations:
+     */
+
+    public int lengthOfLongestSubstring(String s) {
+        boolean[] exist = new boolean[256];
+        int i = 0, maxLen = 0;
+        for (int j = 0; j < s.length(); j++) {
+            while (exist[s.charAt(j)]) {
+                exist[s.charAt(i)] = false;
+                i++;
+            }
+            exist[s.charAt(j)] = true;
+            maxLen = Math.max(j - i + 1, maxLen);
+        }
+        return maxLen;
+    }
+
+
 }
