@@ -1,13 +1,47 @@
 package Arrays;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Le on 2015/11/21.
  */
-public class ArrayProblems {
+
+
+class ArrayEazy{
+
+    /**
+     * Summary Ranges {https://leetcode.com/problems/summary-ranges/}
+     * @param nums
+     * @return
+     */
+    public List<String> summaryRanges(int[] nums) {
+        List<String> result = new ArrayList<String>();
+        if (nums == null || nums.length == 0) {
+            return result;
+        }
+        int start = nums[0], end = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] != end + 1) {
+                end = nums[i - 1];
+                if (start == end) {
+                    result.add(start + "");
+                } else {
+                    result.add(start + "->" + end);
+                }
+                start = nums[i];
+                end =nums[i];
+            } else {
+                end = nums[i];
+            }
+        }
+        if (start == end) {
+            result.add(start + "");
+        } else {
+            result.add(start + "->" + end);
+        }
+
+        return result;
+    }
 
     /**
      * Remove Element
@@ -30,6 +64,123 @@ public class ArrayProblems {
         }
         return pointer + 1;
     }
+
+    /**
+     * Move Zeroes {https://leetcode.com/problems/move-zeroes/}
+     * @param nums
+     */
+    public void moveZeroes(int[] nums) {
+        int pointer = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != 0) {
+                nums[pointer++] = nums[i];
+            }
+        }
+        for (int i = pointer; i < nums.length;i++) {
+            nums[i] = 0;
+        }
+    }
+
+    /**
+     * Shortest Word Distance {https://leetcode.com/problems/shortest-word-distance/}
+     */
+    public int shortestDistance(String[] words, String word1, String word2) {
+        int p1 = -1, p2 = -1, distance = Integer.MAX_VALUE;
+        for(int i = 0; i< words.length; i++){
+            if(word1.equals(words[i])) {
+                p1 = i;
+            }
+            if(word2.equals(words[i])) {
+                p2 = i;
+            }
+            if(p1 != -1 && p2 != -1) {
+                distance = Math.min(distance, Math.abs(p1-p2));
+            }
+        }
+        return distance;
+    }
+
+
+    /**
+     * Contains Duplicate {https://leetcode.com/problems/contains-duplicate/}
+     */
+
+    public boolean containsDuplicate(int[] nums) {
+
+//        if (nums == null || nums.length <= 1) {
+//            return false;
+//        }
+//        Arrays.sort(nums);
+//        for (int i = 1; i < nums.length;i++) {
+//            if (nums[i] == nums[i - 1]) {
+//                return true;
+//            }
+//        }
+//        return false;
+
+        if (nums == null || nums.length == 0) {
+            return false;
+        }
+        HashSet<Integer> set = new HashSet<Integer>();
+        for(int i: nums){
+            if(!set.add(i)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Remove Duplicates from Sorted Array {https://leetcode.com/problems/remove-duplicates-from-sorted-array/}
+     */
+
+    public int removeDuplicates(int[] nums) {
+        int index = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[index] != nums[i]) {
+                nums[++index] = nums[i];
+            }
+        }
+        return index + 1;
+    }
+
+    /**
+     * Plus One {https://leetcode.com/problems/plus-one/}
+     * @param digits
+     * @return
+     */
+
+    public int[] plusOne(int[] digits) {
+        int index = digits.length - 1, carry = 1, sum = 0;
+        while (index >= 0 && carry != 0) {
+            sum = digits[index] + carry;
+            if (sum >= 10) {
+                digits[index] = sum % 10;
+                carry = 1;
+            } else {
+                digits[index] = sum;
+                carry = 0;
+            }
+            index--;
+        }
+        if (carry == 1) {
+            int[] result = new int[digits.length + 1];
+            result[0] = 1;
+            for (int i = 0; i < digits.length; i++) {
+                result[i + 1] = digits[i];
+            }
+            return result;
+        }
+        return digits;
+    }
+
+}
+
+
+
+
+public class ArrayProblems {
 
     /**
      * Two Sum
