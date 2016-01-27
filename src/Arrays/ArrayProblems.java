@@ -7,10 +7,11 @@ import java.util.*;
  */
 
 
-class ArrayEazy{
+class ArrayEazy {
 
     /**
      * Summary Ranges {https://leetcode.com/problems/summary-ranges/}
+     *
      * @param nums
      * @return
      */
@@ -29,7 +30,7 @@ class ArrayEazy{
                     result.add(start + "->" + end);
                 }
                 start = nums[i];
-                end =nums[i];
+                end = nums[i];
             } else {
                 end = nums[i];
             }
@@ -67,6 +68,7 @@ class ArrayEazy{
 
     /**
      * Move Zeroes {https://leetcode.com/problems/move-zeroes/}
+     *
      * @param nums
      */
     public void moveZeroes(int[] nums) {
@@ -77,7 +79,7 @@ class ArrayEazy{
                 nums[pointer++] = nums[i];
             }
         }
-        for (int i = pointer; i < nums.length;i++) {
+        for (int i = pointer; i < nums.length; i++) {
             nums[i] = 0;
         }
     }
@@ -87,15 +89,15 @@ class ArrayEazy{
      */
     public int shortestDistance(String[] words, String word1, String word2) {
         int p1 = -1, p2 = -1, distance = Integer.MAX_VALUE;
-        for(int i = 0; i< words.length; i++){
-            if(word1.equals(words[i])) {
+        for (int i = 0; i < words.length; i++) {
+            if (word1.equals(words[i])) {
                 p1 = i;
             }
-            if(word2.equals(words[i])) {
+            if (word2.equals(words[i])) {
                 p2 = i;
             }
-            if(p1 != -1 && p2 != -1) {
-                distance = Math.min(distance, Math.abs(p1-p2));
+            if (p1 != -1 && p2 != -1) {
+                distance = Math.min(distance, Math.abs(p1 - p2));
             }
         }
         return distance;
@@ -123,8 +125,8 @@ class ArrayEazy{
             return false;
         }
         HashSet<Integer> set = new HashSet<Integer>();
-        for(int i: nums){
-            if(!set.add(i)){
+        for (int i : nums) {
+            if (!set.add(i)) {
                 return true;
             }
         }
@@ -147,6 +149,7 @@ class ArrayEazy{
 
     /**
      * Plus One {https://leetcode.com/problems/plus-one/}
+     *
      * @param digits
      * @return
      */
@@ -177,18 +180,20 @@ class ArrayEazy{
 
     /**
      * Rotate Array{https://leetcode.com/problems/rotate-array/}
+     *
      * @param nums
      * @param k
      */
 
     public void rotate(int[] nums, int k) {
-        k = (nums.length + (k % nums.length)) % nums.length;
-        int tmp;
-        reverse(nums, 0, nums.length - 1);
+        int len = nums.length;
+        k %= len;
+        reverse(nums, 0, len - 1);
         reverse(nums, 0, k - 1);
-        reverse(nums, k, nums.length - 1);
+        reverse(nums, k, len - 1);
     }
-    public void reverse(int[] nums,int start,int end){
+
+    public void reverse(int[] nums, int start, int end) {
         for (int i = start, j = end; i < j; i++, j--) {
             int tmp = nums[i];
             nums[i] = nums[j];
@@ -196,10 +201,34 @@ class ArrayEazy{
         }
     }
 
+    /**
+     * Pascal's Triangle{https://leetcode.com/problems/pascals-triangle/}
+     *
+     * @param numRows
+     * @return
+     */
+    public List<List<Integer>> generate(int numRows) {
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        if (numRows == 0)
+            return res;
+        for (int j = 0; j < numRows; j++) {
+            List<Integer> row = new ArrayList<Integer>();
+            row.add(1);
+            for (int i = 1; i < j; i++) {//除去第一行和第二行才进这个循环
+                List<Integer> prevRow = res.get(j - 1);//当前行的上一行
+                int temp = prevRow.get(i - 1) + prevRow.get(i);
+                row.add(temp);
+            }
+            if (j != 0) {
+                row.add(1);//除了第一行，末尾接个1
+            }
+            res.add(row);
+        }
+        return res;
+    }
+
 
 }
-
-
 
 
 public class ArrayProblems {
@@ -258,7 +287,7 @@ public class ArrayProblems {
  * find(value) – Find if there exists any pair of numbers which sum is equal to the value.
  * For example,
  * add(1); add(3); add(5); find(4)  true; find(7)  false
- *
+ * <p>
  * add() : O(1), find(): O(n), space: O(n)
  */
 class TwoSumIII {
