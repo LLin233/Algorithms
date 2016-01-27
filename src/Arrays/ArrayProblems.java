@@ -175,6 +175,28 @@ class ArrayEazy{
         return digits;
     }
 
+    /**
+     * Rotate Array{https://leetcode.com/problems/rotate-array/}
+     * @param nums
+     * @param k
+     */
+
+    public void rotate(int[] nums, int k) {
+        k = (nums.length + (k % nums.length)) % nums.length;
+        int tmp;
+        reverse(nums, 0, nums.length - 1);
+        reverse(nums, 0, k - 1);
+        reverse(nums, k, nums.length - 1);
+    }
+    public void reverse(int[] nums,int start,int end){
+        for (int i = start, j = end; i < j; i++, j--) {
+            int tmp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = tmp;
+        }
+    }
+
+
 }
 
 
