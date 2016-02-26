@@ -277,6 +277,34 @@ public class ArrayProblems {
         throw new IllegalArgumentException("No two sum solution");
     }
 
+
+    /**
+     * {https://leetcode.com/problems/sliding-window-maximum/}
+     */
+
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if (nums == null || nums.length < k || k < 1) {
+            return new int[]{};
+        }
+        LinkedList<Integer> qmax = new LinkedList<>();
+        int[] result = new int[nums.length - k + 1];
+        int index = 0;
+        for (int i = 0; i < nums.length; i++) {
+            while (!qmax.isEmpty() && nums[qmax.peekLast()] <= nums[i]) {
+                qmax.pollLast();
+            }
+            qmax.addLast(i);
+            if (qmax.peekFirst() == i - k) {
+                qmax.pollFirst();
+            }
+            if (i >= k - 1) {
+                result[index++] = nums[qmax.peekFirst()];
+            }
+        }
+        return result;
+    }
+
+
 }
 
 /**
